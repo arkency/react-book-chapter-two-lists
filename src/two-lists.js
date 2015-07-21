@@ -15,11 +15,21 @@ class List extends React.Component {
 }
 
 class TwoLists extends React.Component {
+  data() {
+    return (
+      {
+        'Opel':   ['Agila', 'Astra', 'Corsa', 'Vectra'],
+        'Škoda':  ['Fabia', 'Octavia', 'Superb', 'Yeti'],
+        'Toyota': ['Auris', 'Avensis', 'Corolla', 'Prius']
+      }
+    );
+  }
+
   render() {
     return (
       <div id={this.props.id}>
-        <List name="Brand" items={['Monday', 'Tuesday']} />
-        <List name="Model" items={['Green', 'Orange']} />
+        <List name="Brand" items={Object.keys(this.data())} />
+        <List name="Model" items={[]} />
       </div>
     );
   }
