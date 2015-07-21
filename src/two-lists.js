@@ -10,11 +10,32 @@ class List extends React.Component {
       options.push(<option value={item}>{item}</option>);
     }
 
-    return (<span><select>{options}</select></span>);
+    return (
+      <span>
+        <select onChange={this.props.handler}>
+          {options}
+        </select>
+      </span>
+    );
   }
 }
 
 class TwoLists extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { brand: null, model: null };
+    this.brandChanged = this.brandChanged.bind(this);
+    this.modelChanged = this.modelChanged.bind(this);
+  }
+
+  brandChanged(event) {
+    this.setState({ brand: event.target.value });
+  }
+
+  modelChanged(event) {
+    this.setState({ model: event.target.value });
+  }
+
   data() {
     return (
       {
@@ -28,8 +49,8 @@ class TwoLists extends React.Component {
   render() {
     return (
       <div id={this.props.id}>
-        <List name="Brand" items={Object.keys(this.data())} />
-        <List name="Model" items={[]} />
+        <List name="Brand" items={Object.keys(this.data())} handler={this.brandChanged} />
+        <List name="Model" items={[]} handler={this.modelChanged} />
       </div>
     );
   }
