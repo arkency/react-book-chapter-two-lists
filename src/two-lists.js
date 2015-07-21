@@ -1,12 +1,13 @@
 class List extends React.Component {
   render() {
     let { name } = this.props;
+    let { items } = this.props;
     let options = [];
 
     options.push(<option value={name}>{name}</option>);
 
-    for(var index in this.props.items) {
-      let item = this.props.items[index];
+    for(var index in items) {
+      let item = items[index];
       options.push(<option value={item}>{item}</option>);
     }
 
@@ -26,16 +27,35 @@ class TwoLists extends React.Component {
     this.state = { brand: null, model: null, models: [] };
     this.brandChanged = this.brandChanged.bind(this);
     this.modelChanged = this.modelChanged.bind(this);
+    this.buttonClicked = this.buttonClicked.bind(this);
+    this.knownModel = this.knownModel.bind(this);
   }
 
   brandChanged(event) {
     let brand = event.target.value;
-    let models = this.data()[brand];
-    this.setState({ brand, models: models || [] });
+    if(this.knownBrand(brand)) {
+      let models = this.data()[brand];
+      this.setState({ brand, models: models });
+    } else {
+      this.setState({ brand: null, models: [] });
+    }
+    this.setState({ model: null });
   }
 
   modelChanged(event) {
-    this.setState({ model: event.target.value });
+    let model = event.target.value;
+    if(this.knownModel(model)) {
+      this.setState({ model });
+    } else {
+      this.setState({ model: null });
+    }
+  }
+
+  buttonClicked(event) {
+    let { brand } = this.state;
+    let { model } = this.state;
+    console.log(this.state);
+    console.log(`${brand} ${model} riding...`);
   }
 
   data() {
@@ -48,11 +68,24 @@ class TwoLists extends React.Component {
     );
   }
 
+  brands() {
+    return Object.keys(this.data());
+  }
+
+  knownBrand(brand) {
+    return this.brands().indexOf(brand) !== -1
+  }
+
+  knownModel(model) {
+    return this.state.models.indexOf(model) !== -1
+  }
+
   render() {
     return (
       <div id={this.props.id}>
-        <List name="Brand" items={Object.keys(this.data())} handler={this.brandChanged} />
+        <List name="Brand" items={this.brands()} handler={this.brandChanged} />
         <List name="Model" items={this.state.models} handler={this.modelChanged} />
+        <button onClick={this.buttonClicked}>Ride</button>
       </div>
     );
   }
