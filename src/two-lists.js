@@ -1,7 +1,6 @@
 class List extends React.Component {
   render() {
-    let { name } = this.props;
-    let { items } = this.props;
+    let { name, items } = this.props;
     let options = [];
 
     options.push(<option value={name}>{name}</option>);
@@ -61,8 +60,7 @@ class TwoLists extends React.Component {
   }
 
   buttonClicked(event) {
-    let { brand } = this.state;
-    let { model } = this.state;
+    let { brand, model } = this.state;
     console.log(this.state);
     console.log(`${brand} ${model} riding...`);
   }
