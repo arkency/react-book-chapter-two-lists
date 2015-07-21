@@ -24,7 +24,10 @@ class List extends React.Component {
 class TwoLists extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { brand: null, model: null, models: [] };
+    this.state = {
+      brand: null, model: null,
+      models: [], buttonDisabled: true
+    };
     this.brandChanged = this.brandChanged.bind(this);
     this.modelChanged = this.modelChanged.bind(this);
     this.buttonClicked = this.buttonClicked.bind(this);
@@ -35,19 +38,25 @@ class TwoLists extends React.Component {
     let brand = event.target.value;
     if(this.knownBrand(brand)) {
       let models = this.data()[brand];
-      this.setState({ brand, models: models });
+      this.setState({
+        brand, model: null,
+        models: models, buttonDisabled: true,
+      });
     } else {
+      this.setState({
+        brand, null, model: null,
+        models: [], buttonDisabled: true
+      });
       this.setState({ brand: null, models: [] });
     }
-    this.setState({ model: null });
   }
 
   modelChanged(event) {
     let model = event.target.value;
     if(this.knownModel(model)) {
-      this.setState({ model });
+      this.setState({ model, buttonDisabled: false });
     } else {
-      this.setState({ model: null });
+      this.setState({ model: null, buttonDisabled: true });
     }
   }
 
@@ -85,7 +94,7 @@ class TwoLists extends React.Component {
       <div id={this.props.id}>
         <List name="Brand" items={this.brands()} handler={this.brandChanged} />
         <List name="Model" items={this.state.models} handler={this.modelChanged} />
-        <button onClick={this.buttonClicked}>Ride</button>
+        <button onClick={this.buttonClicked} disabled={this.state.buttonDisabled}>Ride</button>
       </div>
     );
   }
