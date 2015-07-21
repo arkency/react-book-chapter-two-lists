@@ -31,8 +31,7 @@ class TwoLists extends React.Component {
   brandChanged(event) {
     let brand = event.target.value;
     let models = this.data()[brand];
-    if(models === undefined) { models = []; }
-    this.setState({ brand: brand, models: models });
+    this.setState({ brand, models: models || [] });
   }
 
   modelChanged(event) {
