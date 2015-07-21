@@ -23,13 +23,16 @@ class List extends React.Component {
 class TwoLists extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { brand: null, model: null };
+    this.state = { brand: null, model: null, models: [] };
     this.brandChanged = this.brandChanged.bind(this);
     this.modelChanged = this.modelChanged.bind(this);
   }
 
   brandChanged(event) {
-    this.setState({ brand: event.target.value });
+    let brand = event.target.value;
+    let models = this.data()[brand];
+    if(models === undefined) { models = []; }
+    this.setState({ brand: brand, models: models });
   }
 
   modelChanged(event) {
@@ -50,7 +53,7 @@ class TwoLists extends React.Component {
     return (
       <div id={this.props.id}>
         <List name="Brand" items={Object.keys(this.data())} handler={this.brandChanged} />
-        <List name="Model" items={[]} handler={this.modelChanged} />
+        <List name="Model" items={this.state.models} handler={this.modelChanged} />
       </div>
     );
   }
