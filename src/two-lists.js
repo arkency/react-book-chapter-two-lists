@@ -1,6 +1,6 @@
 class List extends React.Component {
   render() {
-    let { name, items } = this.props;
+    let { name, items, value, handler } = this.props;
     let options = [];
 
     options.push(<option value={name}>{name}</option>);
@@ -10,9 +10,11 @@ class List extends React.Component {
       options.push(<option value={item}>{item}</option>);
     }
 
+    if(value === null) { value = name; }
+
     return (
       <span>
-        <select onChange={this.props.handler}>
+        <select value={value} onChange={handler}>
           {options}
         </select>
       </span>
@@ -37,7 +39,7 @@ class TwoLists extends React.Component {
     if(this.knownBrand(brand)) {
       this.setState({ brand, model: null });
     } else {
-      this.setState({ brand, null, model: null });
+      this.setState({ brand: null, model: null });
     }
   }
 
@@ -89,9 +91,16 @@ class TwoLists extends React.Component {
   render() {
     return (
       <div id={this.props.id}>
-        <List name="Brand" items={this.brands()} handler={this.brandChanged} />
-        <List name="Model" items={this.models()} handler={this.modelChanged} />
-        <button onClick={this.buttonClicked} disabled={this.buttonDisabled()}>Ride</button>
+        <List name="Brand" items={this.brands()}
+              value={this.state.brand}
+              handler={this.brandChanged} />
+        <List name="Model" items={this.models()}
+              value={this.state.model}
+              handler={this.modelChanged} />
+        <button onClick={this.buttonClicked}
+                disabled={this.buttonDisabled()}>
+                Ride
+        </button>
       </div>
     );
   }
