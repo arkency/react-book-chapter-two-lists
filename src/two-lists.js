@@ -57,23 +57,13 @@ class TwoLists extends React.Component {
     console.log(`${brand} ${model} riding...`);
   }
 
-  data() {
-    return (
-      {
-        'Opel':   ['Agila', 'Astra', 'Corsa', 'Vectra'],
-        'Škoda':  ['Fabia', 'Octavia', 'Superb', 'Yeti'],
-        'Toyota': ['Auris', 'Avensis', 'Corolla', 'Prius']
-      }
-    );
-  }
-
   brands() {
-    return Object.keys(this.data());
+    return Object.keys(this.props.data);
   }
 
   models() {
     let { brand } = this.state;
-    return (brand !== null ? this.data()[brand] : []);
+    return (brand !== null ? this.props.data[brand] : []);
   }
 
   knownBrand(brand) {
@@ -105,6 +95,14 @@ class TwoLists extends React.Component {
     );
   }
 }
+
+TwoLists.defaultProps = {
+  data: {
+    'Opel':   ['Agila', 'Astra', 'Corsa', 'Vectra'],
+    'Škoda':  ['Fabia', 'Octavia', 'Superb', 'Yeti'],
+    'Toyota': ['Auris', 'Avensis', 'Corolla', 'Prius']
+  }
+};
 
 React.render(
   <TwoLists id="two-lists"/>,
