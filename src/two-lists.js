@@ -23,21 +23,21 @@ class List extends React.Component {
 class TwoLists extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { brand: null, model: null, models: [] };
+    this.state = { brand: null, model: null };
     this.brandChanged = this.brandChanged.bind(this);
     this.modelChanged = this.modelChanged.bind(this);
     this.buttonClicked = this.buttonClicked.bind(this);
     this.knownModel = this.knownModel.bind(this);
     this.buttonDisabled = this.buttonDisabled.bind(this);
+    this.models = this.models.bind(this);
   }
 
   brandChanged(event) {
     let brand = event.target.value;
     if(this.knownBrand(brand)) {
-      let models = this.data()[brand];
-      this.setState({ brand, model: null, models: models });
+      this.setState({ brand, model: null });
     } else {
-      this.setState({ brand, null, model: null, models: [] });
+      this.setState({ brand, null, model: null });
     }
   }
 
@@ -52,7 +52,6 @@ class TwoLists extends React.Component {
 
   buttonClicked(event) {
     let { brand, model } = this.state;
-    console.log(this.state);
     console.log(`${brand} ${model} riding...`);
   }
 
@@ -70,12 +69,17 @@ class TwoLists extends React.Component {
     return Object.keys(this.data());
   }
 
+  models() {
+    let { brand } = this.state;
+    return (brand !== null ? this.data()[brand] : []);
+  }
+
   knownBrand(brand) {
     return this.brands().indexOf(brand) !== -1
   }
 
   knownModel(model) {
-    return this.state.models.indexOf(model) !== -1
+    return this.models().indexOf(model) !== -1
   }
 
   buttonDisabled() {
@@ -86,7 +90,7 @@ class TwoLists extends React.Component {
     return (
       <div id={this.props.id}>
         <List name="Brand" items={this.brands()} handler={this.brandChanged} />
-        <List name="Model" items={this.state.models} handler={this.modelChanged} />
+        <List name="Model" items={this.models()} handler={this.modelChanged} />
         <button onClick={this.buttonClicked} disabled={this.buttonDisabled()}>Ride</button>
       </div>
     );
