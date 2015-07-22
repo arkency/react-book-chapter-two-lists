@@ -26,12 +26,19 @@ class TwoLists extends React.Component {
   constructor(props) {
     super(props);
     this.state = { brand: null, model: null };
+
+    this.knownBrand = this.knownBrand.bind(this);
     this.brandChanged = this.brandChanged.bind(this);
-    this.modelChanged = this.modelChanged.bind(this);
-    this.buttonClicked = this.buttonClicked.bind(this);
     this.knownModel = this.knownModel.bind(this);
-    this.buttonDisabled = this.buttonDisabled.bind(this);
+    this.modelChanged = this.modelChanged.bind(this);
+    this.brands = this.brands.bind(this);
     this.models = this.models.bind(this);
+    this.buttonClicked = this.buttonClicked.bind(this);
+    this.buttonDisabled = this.buttonDisabled.bind(this);
+  }
+
+  knownBrand(brand) {
+    return this.brands().indexOf(brand) !== -1
   }
 
   brandChanged(event) {
@@ -43,6 +50,10 @@ class TwoLists extends React.Component {
     }
   }
 
+  knownModel(model) {
+    return this.models().indexOf(model) !== -1
+  }
+
   modelChanged(event) {
     let model = event.target.value;
     if(this.knownModel(model)) {
@@ -50,11 +61,6 @@ class TwoLists extends React.Component {
     } else {
       this.setState({ model: null });
     }
-  }
-
-  buttonClicked(event) {
-    let { brand, model } = this.state;
-    console.log(`${brand} ${model} riding...`);
   }
 
   brands() {
@@ -66,12 +72,9 @@ class TwoLists extends React.Component {
     return (brand !== null ? this.props.data[brand] : []);
   }
 
-  knownBrand(brand) {
-    return this.brands().indexOf(brand) !== -1
-  }
-
-  knownModel(model) {
-    return this.models().indexOf(model) !== -1
+  buttonClicked(event) {
+    let { brand, model } = this.state;
+    console.log(`${brand} ${model} riding...`);
   }
 
   buttonDisabled() {
