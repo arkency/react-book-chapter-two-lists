@@ -13,11 +13,9 @@ class List extends React.Component {
     if(value === null) { value = name; }
 
     return (
-      <span>
-        <select value={value} onChange={handler}>
-          {options}
-        </select>
-      </span>
+      <select value={value} onChange={handler}>
+        {options}
+      </select>
     );
   }
 }
@@ -37,6 +35,10 @@ class TwoLists extends React.Component {
     this.buttonDisabled = this.buttonDisabled.bind(this);
   }
 
+  brands() {
+    return Object.keys(this.props.data);
+  }
+
   knownBrand(brand) {
     return this.brands().indexOf(brand) !== -1
   }
@@ -50,6 +52,11 @@ class TwoLists extends React.Component {
     }
   }
 
+  models() {
+    let { brand } = this.state;
+    return (brand !== null ? this.props.data[brand] : []);
+  }
+
   knownModel(model) {
     return this.models().indexOf(model) !== -1
   }
@@ -61,15 +68,6 @@ class TwoLists extends React.Component {
     } else {
       this.setState({ model: null });
     }
-  }
-
-  brands() {
-    return Object.keys(this.props.data);
-  }
-
-  models() {
-    let { brand } = this.state;
-    return (brand !== null ? this.props.data[brand] : []);
   }
 
   buttonClicked(event) {
