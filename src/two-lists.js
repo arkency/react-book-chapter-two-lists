@@ -25,14 +25,9 @@ class TwoLists extends React.Component {
     super(props);
     this.state = { brand: null, model: null };
 
-    this.knownBrand = this.knownBrand.bind(this);
     this.brandChanged = this.brandChanged.bind(this);
-    this.knownModel = this.knownModel.bind(this);
     this.modelChanged = this.modelChanged.bind(this);
-    this.brands = this.brands.bind(this);
-    this.models = this.models.bind(this);
     this.buttonClicked = this.buttonClicked.bind(this);
-    this.buttonDisabled = this.buttonDisabled.bind(this);
   }
 
   brands() {
