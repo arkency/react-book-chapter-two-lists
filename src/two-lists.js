@@ -100,7 +100,7 @@ class TwoLists extends React.Component {
 TwoLists.defaultProps = {
   data: {
     'Opel':   ['Agila', 'Astra', 'Corsa', 'Vectra'],
-    'Škoda':  ['Fabia', 'Octavia', 'Superb', 'Yeti'],
+    'Skoda':  ['Fabia', 'Octavia', 'Superb', 'Yeti'],
     'Toyota': ['Auris', 'Avensis', 'Corolla', 'Prius']
   }
 };
