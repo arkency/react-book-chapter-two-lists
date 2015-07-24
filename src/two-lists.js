@@ -71,7 +71,7 @@ class TwoLists extends React.Component {
   }
 
   buttonDisabled() {
-    return !(this.state.brand !== null && this.state.model !== null)
+    return (this.state.brand === null || this.state.model == null)
   }
 
   render() {
