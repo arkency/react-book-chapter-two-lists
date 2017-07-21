@@ -1,3 +1,7 @@
+import React from "react";
+
+import ReactDOM from 'react-dom';
+
 class List extends React.Component {
   render() {
     let { name, items, value, handler } = this.props;
@@ -100,7 +104,7 @@ TwoLists.defaultProps = {
   }
 };
 
-React.render(
+ReactDOM.render(
   <TwoLists id="two-lists"/>,
   document.getElementById("form")
 );
