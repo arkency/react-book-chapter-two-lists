@@ -7,7 +7,7 @@ class List extends React.Component {
     let options = [];
 
     options.push(
-      <option value={name}>
+      <option key={name} value={name}>
         {name}
       </option>
     );
@@ -15,7 +15,7 @@ class List extends React.Component {
     for (var index in items) {
       let item = items[index];
       options.push(
-        <option value={item}>
+        <option key={item} value={item}>
           {item}
         </option>
       );
