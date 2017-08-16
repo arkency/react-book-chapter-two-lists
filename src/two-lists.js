@@ -1,20 +1,29 @@
 import React from "react";
-
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 
 class List extends React.Component {
   render() {
     let { name, items, value, handler } = this.props;
     let options = [];
 
-    options.push(<option value={name}>{name}</option>);
+    options.push(
+      <option value={name}>
+        {name}
+      </option>
+    );
 
-    for(var index in items) {
+    for (var index in items) {
       let item = items[index];
-      options.push(<option value={item}>{item}</option>);
+      options.push(
+        <option value={item}>
+          {item}
+        </option>
+      );
     }
 
-    if(value === null) { value = name; }
+    if (value === null) {
+      value = name;
+    }
 
     return (
       <select value={value} onChange={handler}>
@@ -39,12 +48,12 @@ class TwoLists extends React.Component {
   }
 
   knownBrand(brand) {
-    return this.brands().indexOf(brand) !== -1
+    return this.brands().indexOf(brand) !== -1;
   }
 
   brandChanged(event) {
     let brand = event.target.value;
-    if(this.knownBrand(brand)) {
+    if (this.knownBrand(brand)) {
       this.setState({ brand, model: null });
     } else {
       this.setState({ brand: null, model: null });
@@ -53,16 +62,16 @@ class TwoLists extends React.Component {
 
   models() {
     let { brand } = this.state;
-    return (brand !== null ? this.props.data[brand] : []);
+    return brand !== null ? this.props.data[brand] : [];
   }
 
   knownModel(model) {
-    return this.models().indexOf(model) !== -1
+    return this.models().indexOf(model) !== -1;
   }
 
   modelChanged(event) {
     let model = event.target.value;
-    if(this.knownModel(model)) {
+    if (this.knownModel(model)) {
       this.setState({ model });
     } else {
       this.setState({ model: null });
@@ -75,21 +84,26 @@ class TwoLists extends React.Component {
   }
 
   buttonDisabled() {
-    return (this.state.brand === null || this.state.model == null)
+    return this.state.brand === null || this.state.model == null;
   }
 
   render() {
     return (
       <div id={this.props.id}>
-        <List name="Brand" items={this.brands()}
-              value={this.state.brand}
-              handler={this.brandChanged} />
-        <List name="Model" items={this.models()}
-              value={this.state.model}
-              handler={this.modelChanged} />
-        <button onClick={this.buttonClicked}
-                disabled={this.buttonDisabled()}>
-                Ride
+        <List
+          name="Brand"
+          items={this.brands()}
+          value={this.state.brand}
+          handler={this.brandChanged}
+        />
+        <List
+          name="Model"
+          items={this.models()}
+          value={this.state.model}
+          handler={this.modelChanged}
+        />
+        <button onClick={this.buttonClicked} disabled={this.buttonDisabled()}>
+          Ride
         </button>
       </div>
     );
@@ -98,13 +112,10 @@ class TwoLists extends React.Component {
 
 TwoLists.defaultProps = {
   data: {
-    'Opel':   ['Agila', 'Astra', 'Corsa', 'Vectra'],
-    'Skoda':  ['Fabia', 'Octavia', 'Superb', 'Yeti'],
-    'Toyota': ['Auris', 'Avensis', 'Corolla', 'Prius']
+    Opel: ["Agila", "Astra", "Corsa", "Vectra"],
+    Skoda: ["Fabia", "Octavia", "Superb", "Yeti"],
+    Toyota: ["Auris", "Avensis", "Corolla", "Prius"]
   }
 };
 
-ReactDOM.render(
-  <TwoLists id="two-lists"/>,
-  document.getElementById("form")
-);
+ReactDOM.render(<TwoLists id="two-lists" />, document.getElementById("root"));
