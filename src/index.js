@@ -1,113 +1,87 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
-class List extends React.Component {
-  render() {
-    let { name, items, value, handler } = this.props;
-    let options = [];
+function List(props) {
+  const { name, items, value, handler } = props;
+  const options = [];
 
+  options.push(
+    <option key={name} value={name}>
+      {name}
+    </option>
+  );
+
+  for (var index in items) {
+    const item = items[index];
     options.push(
-      <option key={name} value={name}>
-        {name}
+      <option key={item} value={item}>
+        {item}
       </option>
     );
-
-    for (var index in items) {
-      let item = items[index];
-      options.push(
-        <option key={item} value={item}>
-          {item}
-        </option>
-      );
-    }
-
-    if (value === null) {
-      value = name;
-    }
-
-    return (
-      <select value={value} onChange={handler}>
-        {options}
-      </select>
-    );
   }
+
+  return (
+    <select value={value || name} onChange={handler}>
+      {options}
+    </select>
+  );
 }
 
-class TwoLists extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { brand: null, model: null };
+function TwoLists(props) {
+  const [brand, changeBrand] = useState(null);
+  const [model, changeModel] = useState(null);
 
-    this.brandChanged = this.brandChanged.bind(this);
-    this.modelChanged = this.modelChanged.bind(this);
-    this.buttonClicked = this.buttonClicked.bind(this);
-  }
+  const brands = () => Object.keys(props.data);
+  const models = () =>
+    brand !== null ? props.data[brand] : [];
 
-  brands() {
-    return Object.keys(this.props.data);
-  }
+  const knownBrand = brand => brands().indexOf(brand) !== -1;
+  const knownModel = model => models().indexOf(model) !== -1;
 
-  knownBrand(brand) {
-    return this.brands().indexOf(brand) !== -1;
-  }
-
-  brandChanged(event) {
-    let brand = event.target.value;
-    if (this.knownBrand(brand)) {
-      this.setState({ brand, model: null });
+  const brandChanged = event => {
+    const brand = event.target.value;
+    if (knownBrand(brand)) {
+      changeBrand(brand);
     } else {
-      this.setState({ brand: null, model: null });
+      changeBrand(null);
+    }
+    changeModel(null);
+  }
+
+  const modelChanged = event => {
+    const model = event.target.value;
+    if (knownModel(model)) {
+      changeModel(model);
+    } else {
+      changeModel(null);
     }
   }
 
-  models() {
-    let { brand } = this.state;
-    return brand !== null ? this.props.data[brand] : [];
-  }
-
-  knownModel(model) {
-    return this.models().indexOf(model) !== -1;
-  }
-
-  modelChanged(event) {
-    let model = event.target.value;
-    if (this.knownModel(model)) {
-      this.setState({ model });
-    } else {
-      this.setState({ model: null });
-    }
-  }
-
-  buttonClicked(event) {
-    let { brand, model } = this.state;
+  const buttonClicked = event => {
     console.log(`${brand} ${model} riding...`);
   }
 
-  buttonDisabled() {
-    return this.state.brand === null || this.state.model == null;
-  }
+  const buttonDisabled = () => brand === null || model == null;
 
-  render() {
-    return (
-      <div id={this.props.id}>
-        <List
-          name="Brand"
-          items={this.brands()}
-          value={this.state.brand}
-          handler={this.brandChanged}
-        />
-        <List
-          name="Model"
-          items={this.models()}
-          value={this.state.model}
-          handler={this.modelChanged}
-        />
-        <button onClick={this.buttonClicked} disabled={this.buttonDisabled()}>
-          Ride
-        </button>
-      </div>
-    );
-  }
+  return (
+    <div id={props.id}>
+      <List
+        name="Brand"
+        items={brands()}
+        value={brand}
+        handler={brandChanged}
+      />
+      <List
+        name="Model"
+        items={models()}
+        value={model}
+        handler={modelChanged}
+      />
+      <button onClick={buttonClicked} disabled={buttonDisabled()}>
+        Ride
+      </button>
+    </div>
+  );
 }
 
 TwoLists.defaultProps = {
